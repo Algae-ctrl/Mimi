@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mimi - Your tool hub.">
+    <title>Mimi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1c1c1c, #3a3a3a);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .container {
+            padding: 60px 50px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            animation: fadeInUp 0.5s ease-in-out forwards;
+            transform: translateY(20px);
+            margin-top: 10%;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+            font-size: 4em;
+            animation: fadeInDown 0.5s ease-in-out forwards;
+            transition: color 0.3s;
+        }
+
+        h1:hover {
+            color: #0078d4;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            animation: fadeInDown 0.5s ease-in-out forwards;
+            font-weight: 400;
+            margin-top: 0;
+        }
+
+        .small-text {
+            font-size: 0.8em;
+        }
+
+        .search-bar {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            width: 80%;
+            max-width: 400px;
+            border: 2px solid #0078d4;
+            border-radius: 5px;
+            outline: none;
+            font-size: 16px;
+            background-color: #f5f5f5;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #005fa3;
+            transform: scale(1.02);
+        }
+
+        input[type="text"]::placeholder {
+            color: #888;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+        }
+
+        button.search-btn {
+            padding: 12px;
+            margin-left: 10px;
+            border: none;
+            background-color: #0078d4;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.2s ease, box-shadow 0.2s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+        }
+
+        button.search-btn:hover {
+            background-color: #005fa3;
+            box-shadow: 0 0 8px rgba(0, 120, 212, 0.5);
+            transform: scale(1.05);
+        }
+
+        #search-results {
+            margin-top: 20px;
+            text-align: left;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tool-item {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .tool-item:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mimi</h1>
+        <h2 class="small-text">One Web, Infinite Tools</h2>
+
+        <!-- Search Section -->
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search for tools..." aria-label="Search tools" />
+            <button class="search-btn" id="search-button" aria-label="Search tools">
+                <i class="fas fa-search" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <!-- Search Results -->
+        <div id="search-results"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <script src="tools.js"></script> <!-- External JavaScript for tools -->
+    <script>
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const searchResults = document.getElementById('search-results');
+
+        function performSearch() {
+            const query = searchInput.value.toLowerCase();
+            const filteredTools = tools.filter(tool => 
+                tool.name.toLowerCase().includes(query) || 
+                tool.description.toLowerCase().includes(query)
+            );
+
+            displayResults(filteredTools);
+        }
+
+        function displayResults(results) {
+            searchResults.innerHTML = '';
+            if (results.length === 0) {
+                searchResults.innerHTML = '<p>No tools found.</p>';
+            } else {
+                results.forEach(tool => {
+                    const toolElement = document.createElement('div');
+                    toolElement.classList.add('tool-item');
+                    toolElement.innerHTML = `
+                        <h3>${tool.name}</h3>
+                        <p>${tool.description}</p>
+                        <a href="${tool.pageUrl}" target="_blank">Open Tool</a> <!-- Opens in a new page -->
+                    `;
+                    searchResults.appendChild(toolElement);
+                });
+            }
+        }
+
+        searchButton.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+    </script>
+</body>
+</html>
