@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mimi - Your tool hub.">
+    <title>All Tools - Mimi</title>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Poppins:wght@300;400&display=swap" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Poppins:wght@300;400&display=swap">
+    <style>
+        body {
+            font-family: 'Poppins', 'Roboto', sans-serif, Arial, Helvetica;
+            background: linear-gradient(135deg, #1c1c1c, #3a3a3a);
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+            text-align: center;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .tech-line {
+            font-size: 0.7em; /* Smaller font size */
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid;
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 5px 0; /* Add padding for better appearance */
+        }
+
+        .tool-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .tool-item h3 {
+            font-size: 1.5em;
+            font-family: 'Roboto', sans-serif; /* Different font for title */
+        }
+
+        .tool-item p {
+            font-size: 1em;
+            font-family: 'Poppins', sans-serif; /* Different font for description */
+        }
+
+        .tool-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .open-button {
+            background-color: #ffffff;
+            color: #1c1c1c;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .open-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .home-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ffffff;
+            color: #1c1c1c;
+            padding: 10px;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.2em;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+            z-index: 1000;
+        }
+
+        .home-button:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Media queries for responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 10px;
+            }
+
+            .tool-item h3 {
+                font-size: 1.2em;
+            }
+
+            .tool-item p {
+                font-size: 0.9em;
+            }
+
+            .tech-line {
+                font-size: 0.7em; /* Updated for mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tech-line" id="techLine"></div>
+        <div id="tool-list"></div>
+    </div>
+
+    <button class="home-button" onclick="goHome()" aria-label="Go to Home Page">🏠</button>
+
+    <script src="tools.js"></script> <!-- Link to your tools.js file -->
+    <script>
+        const toolList = document.getElementById('tool-list');
+
+        // Load all tools into the list
+        function loadTools() {
+            tools.forEach(tool => {
+                const toolItem = document.createElement('div');
+                toolItem.className = 'tool-item visible'; // Add visible class for animation
+                toolItem.innerHTML = `
+                    <h3>${tool.name}</h3>
+                    <p>${tool.description}</p>
+                    <button class="open-button" onclick="openTool('${tool.pageUrl}')">Open Tool</button>
+                `;
+                toolList.appendChild(toolItem);
+            });
+        }
+
+        // Open tool URL in a new tab
+        function openTool(url) {
+            window.open(url, '_blank');
+        }
+
+        // Go to the home page
+        function goHome() {
+            window.location.href = 'index.html'; // Change to your home page URL
+        }
+
+        // Typing animation for tech line
+        const techLine = document.getElementById('techLine');
+        const techText = "Discover powerful tools just for you...";
+        let index = 0;
+
+        function typeText() {
+            if (index < techText.length) {
+                techLine.innerHTML += techText.charAt(index);
+                index++;
+                setTimeout(typeText, 50); // Adjust speed as needed
+            }
+        }
+
+        // Load initial tools and start typing animation
+        loadTools();
+        typeText();
+    </script>
+</body>
+</html>
