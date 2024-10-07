@@ -1,8 +1,8 @@
 // tools.js
 const tools = [
     {
-        name: 'Tool 1',
-        description: 'Description for Tool 1',
+        name: 'Html Viewer',
+        description:'See your HTML CSS And Jss Code Easily in one tap 
         pageUrl: 'Html Viewer.html' // Ensure this matches the HTML file in your repository
     },
     {
