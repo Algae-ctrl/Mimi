@@ -2,7 +2,7 @@ const tools = [
     {
         name: "Tool One",
         description: "A brief description of Tool One.",
-        pageUrl: "https://replit.com/@ayushbro7707/Tool-Builder-Plus?s=app"
+        pageUrl: "Html Viewer.htnl"
     },
     {
         name: "Tool Two",
