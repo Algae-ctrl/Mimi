@@ -33,6 +33,13 @@
             display: inline-block;
             margin-bottom: 20px;
             padding: 5px 0; /* Add padding for better appearance */
+            animation: blink 1s step-end infinite; /* Cursor blinking effect */
+        }
+
+        @keyframes blink {
+            50% {
+                border-color: transparent; /* Makes the cursor blink */
+            }
         }
 
         .tool-item {
@@ -44,16 +51,6 @@
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             text-align: left;
-        }
-
-        .tool-item h3 {
-            font-size: 1.5em;
-            font-family: 'Roboto', sans-serif; /* Different font for title */
-        }
-
-        .tool-item p {
-            font-size: 1em;
-            font-family: 'Poppins', sans-serif; /* Different font for description */
         }
 
         .tool-item.visible {
@@ -128,23 +125,25 @@
     <script>
         const toolList = document.getElementById('tool-list');
 
-        // Load all tools into the list
+        // Load all tools into the list with a slight delay for animation
         function loadTools() {
-            tools.forEach(tool => {
-                const toolItem = document.createElement('div');
-                toolItem.className = 'tool-item visible'; // Add visible class for animation
-                toolItem.innerHTML = `
-                    <h3>${tool.name}</h3>
-                    <p>${tool.description}</p>
-                    <button class="open-button" onclick="openTool('${tool.pageUrl}')">Open Tool</button>
-                `;
-                toolList.appendChild(toolItem);
+            tools.forEach((tool, index) => {
+                setTimeout(() => {
+                    const toolItem = document.createElement('div');
+                    toolItem.className = 'tool-item visible'; // Add visible class for animation
+                    toolItem.innerHTML = `
+                        <h3>${tool.name}</h3>
+                        <p>${tool.description}</p>
+                        <button class="open-button" onclick="openTool('${tool.pageUrl}')" aria-label="Open ${tool.name}">Open Tool</button>
+                    `;
+                    toolList.appendChild(toolItem);
+                }, index * 200); // Delay based on index for staggered appearance
             });
         }
 
-        // Open tool URL in a new tab
+        // Open tool URL in the same window
         function openTool(url) {
-            window.open(url, '_blank');
+            window.location.href = url; // This will navigate to the tool's HTML page
         }
 
         // Go to the home page
